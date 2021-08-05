@@ -9,7 +9,8 @@ import CustomStepper, {steps} from './CustomStepper';
 import AppContext from './AppContext';
 import CountryForm from './CountryForm';
 import Emissions from './Emissions';
-import dynamic from 'next/dynamic'
+import dynamic from 'next/dynamic';
+import WithAnimation from './WithAnimation';
 
 const UsageFormWithoutSSR = dynamic(
     () => import('./UsageForm'),
@@ -88,34 +89,36 @@ export default function ElectricityToCarbon() {
             setDate,
         }}>
             <CssBaseline />
-            <main className={classes.layout}>
-                <Paper className={classes.paper}>
-                    <Typography component="h1" variant="h4" align="center">
-                        Estimate your weekly carbon emissions!
-                    </Typography>
-                    <CustomStepper activeStep={activeStep} />
-                    <>
-                        {getStepContent(activeStep)}
-                        <div className={classes.buttons}>
-                            {activeStep !== 0 && (
-                                <Button onClick={handleBack} className={classes.button}>
-                                    Back
+            <WithAnimation>
+                <main className={classes.layout}>
+                    <Paper className={classes.paper}>
+                        <Typography component="h1" variant="h4" align="center">
+                            Estimate your weekly carbon emissions!
+                        </Typography>
+                        <CustomStepper activeStep={activeStep} />
+                        <>
+                            {getStepContent(activeStep)}
+                            <div className={classes.buttons}>
+                                {activeStep !== 0 && (
+                                    <Button onClick={handleBack} className={classes.button}>
+                                        Back
+                                    </Button>
+                                )}
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={handleNext}
+                                    className={classes.button}
+                                    disabled={isLastStep || !isValide}
+                                >
+                                    Continue
                                 </Button>
-                            )}
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={handleNext}
-                                className={classes.button}
-                                disabled={isLastStep || !isValide}
-                            >
-                                Continue
-                            </Button>
-                        </div>
-                    </>
-                </Paper>
-                <Copyright />
-            </main>
+                            </div>
+                        </>
+                    </Paper>
+                    <Copyright />
+                </main>
+            </WithAnimation>
         </AppContext.Provider >
     );
 }
