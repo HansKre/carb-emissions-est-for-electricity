@@ -47,7 +47,8 @@ Highly welcome. Please submit via PR.
 
 ## Compatibility
 
-`KeyboardTimePicker` needs `MuiPickersUtilsProvider` which uses `DateFnsUtils` from `@date-io/date-fns` package. It seems, that a specific version is required. Install it with `npm install @date-io/date-fns@1.3.13`.
+- `KeyboardTimePicker` needs `MuiPickersUtilsProvider` which uses `DateFnsUtils` from `@date-io/date-fns` package. It seems, that a specific version is required. Install it with `npm install @date-io/date-fns@1.3.13`.
+- [`JSS` fix for `SSR`](https://medium.com/wesionary-team/implementing-react-jss-on-next-js-projects-7ceaee985cad): fixes 'Warning: Prop `className` did not match.' issue when reloading page during development while running `npm run dev`.
 
 ## Backlog
 
