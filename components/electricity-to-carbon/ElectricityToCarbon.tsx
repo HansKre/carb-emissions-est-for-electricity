@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Copyright from './Copyright';
 import CustomStepper, {steps} from './CustomStepper';
 import UsageForm from './UsageForm';
+import AppContext from './AppContext';
 
 const useStyles = makeStyles((theme) => ({
     layout: {
@@ -55,6 +56,8 @@ function getStepContent(step: number) {
 export default function ElectricityToCarbon() {
     const classes = useStyles();
     const [activeStep, setActiveStep] = useState(0);
+    const [isValide, setIsValide] = useState(false);
+    const [electricityValues, setElectricityValues] = useState([0, 0, 0, 0, 0, 0, 0]);
 
     const handleNext = () => {
         setActiveStep(activeStep + 1);
@@ -66,7 +69,11 @@ export default function ElectricityToCarbon() {
 
     const isLastStep = activeStep === steps.length - 1;
     return (
-        <>
+        <AppContext.Provider value={{
+            setIsValide,
+            electricityValues,
+            setElectricityValues
+        }}>
             <CssBaseline />
             <main className={classes.layout}>
                 <Paper className={classes.paper}>
@@ -96,6 +103,6 @@ export default function ElectricityToCarbon() {
                 </Paper>
                 <Copyright />
             </main>
-        </>
+        </AppContext.Provider >
     );
 }

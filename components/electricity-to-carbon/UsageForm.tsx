@@ -1,9 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useContext} from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import {makeStyles} from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
 import weekdays from '../utils/weekdays';
+import AppContext from './AppContext';
 
 const LOCALE = 'en-UK';
 const MIN = 0, MAX = 300, STEP_COUNT = 100;
@@ -46,8 +47,11 @@ const MARKS = [
 
 export default function UsageForm() {
     const classes = useStyles();
-    const [isValide, setIsValide] = useState(false);
-    const [electricityValues, setElectricityValues] = useState([0, 0, 0, 0, 0, 0, 0]);
+    const {
+        setIsValide,
+        electricityValues,
+        setElectricityValues
+    } = useContext(AppContext);
 
     const notEmpty = (arr: number[]): boolean => {
         const sum = arr.reduce((acc, curr) => acc + curr, 0);
