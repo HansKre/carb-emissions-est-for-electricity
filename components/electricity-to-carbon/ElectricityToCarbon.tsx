@@ -9,6 +9,7 @@ import CustomStepper, {steps} from './CustomStepper';
 import UsageForm from './UsageForm';
 import AppContext from './AppContext';
 import CountryForm from './CountryForm';
+import Emissions from './Emissions';
 
 const useStyles = makeStyles((theme) => ({
     layout: {
@@ -48,7 +49,7 @@ function getStepContent(step: number) {
         case 1:
             return <CountryForm />;
         case 2:
-            return <p>3</p>;
+            return <Emissions />;
         default:
             throw new Error('Unknown step');
     }
