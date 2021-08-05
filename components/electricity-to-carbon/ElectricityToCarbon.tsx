@@ -101,7 +101,7 @@ export default function ElectricityToCarbon() {
                                 color="primary"
                                 onClick={handleNext}
                                 className={classes.button}
-                                disabled={isLastStep}
+                                disabled={isLastStep || !isValide}
                             >
                                 Continue
                             </Button>
