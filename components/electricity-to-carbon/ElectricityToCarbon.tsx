@@ -6,16 +6,11 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Copyright from './Copyright';
 import CustomStepper, {steps} from './CustomStepper';
+import UsageForm from './UsageForm';
 import AppContext from './AppContext';
 import CountryForm from './CountryForm';
 import Emissions from './Emissions';
-import dynamic from 'next/dynamic';
 import WithAnimation from './WithAnimation';
-
-const UsageFormWithoutSSR = dynamic(
-    () => import('./UsageForm'),
-    {ssr: false}
-)
 
 const useStyles = makeStyles((theme) => ({
     layout: {
@@ -51,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 function getStepContent(step: number) {
     switch (step) {
         case 0:
-            return <UsageFormWithoutSSR />;
+            return <UsageForm />;
         case 1:
             return <CountryForm />;
         case 2:
