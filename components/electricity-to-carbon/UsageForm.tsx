@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     sliderContainer: {
         height: 190,
         marginTop: theme.spacing(2),
-        marginBottom: theme.spacing(3),
+        marginBottom: theme.spacing(1),
     },
     marginLeft: {
         marginLeft: theme.spacing(3),
@@ -22,15 +22,24 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: theme.spacing(3),
     },
     container: {
-        marginTop: theme.spacing(2),
+        marginTop: theme.spacing(4),
         flexWrap: 'nowrap',
     },
     thumb: {
         borderRadius: '1px',
-        height: '0px',
+        height: '20px',
+        width: '26px',
+        left: '7px'
     },
     valueLabel: {
-        transform: 'translateY(25px) !important',
+        left: '0 !important',
+        transform: 'none !important',
+        position: 'initial',
+        textAlign: 'center',
+        top: '5px',
+        "& *": {
+            background: "transparent",
+        }
     },
 }));
 
