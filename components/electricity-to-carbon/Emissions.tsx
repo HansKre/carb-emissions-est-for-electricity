@@ -6,10 +6,11 @@ import CustomBarChart, {ChartData} from './CustomBarChart';
 import weekday from '../utils/weekdays';
 import Response from '../../types/Response';
 import CustomBackdrop from '../backdrop/CustomBackdrop';
+import {steps} from './CustomStepper';
 
 export default function Emissions() {
     // TODO: avoid re-renders due to new reference
-    const {country, electricityValues} = useContext(AppContext);
+    const {country, electricityValues, activeStep, setActiveStep} = useContext(AppContext);
     const [data, setData] = useState<ChartData[]>(weekday.map(d => ({weekday: d, value: 0})));
     const [dataWhileLoading, setDataWhileLoading] = useState<ChartData[]>(weekday.map(d => ({weekday: d, value: 0})));
     const [isLoading, setIsLoading] = useState(false);
@@ -40,6 +41,9 @@ export default function Emissions() {
         Promise.all(pendingRequests).then(() => {
             setIsLoading(false);
             setData(dataWhileLoading);
+            if (activeStep < steps.length) {
+                setActiveStep(prev => prev + 1);
+            }
         });
     }, [electricityValues]);
 

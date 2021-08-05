@@ -8,6 +8,8 @@ interface AppContextInterface {
     setIsValide: React.Dispatch<React.SetStateAction<boolean>>;
     electricityValues: number[];
     setElectricityValues: React.Dispatch<React.SetStateAction<number[]>>;
+    activeStep: number;
+    setActiveStep: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const AppContext = createContext<AppContextInterface>({
@@ -17,7 +19,9 @@ const AppContext = createContext<AppContextInterface>({
     setDate: () => {},
     setIsValide: () => {},
     electricityValues: [],
-    setElectricityValues: () => {}
+    setElectricityValues: () => {},
+    activeStep: 0,
+    setActiveStep: () => {},
 });
 
 

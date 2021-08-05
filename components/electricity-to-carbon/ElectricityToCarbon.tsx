@@ -51,6 +51,8 @@ function getStepContent(step: number) {
             return <CountryForm />;
         case 2:
             return <Emissions />;
+        case 3:
+            return <Emissions />;
         default:
             throw new Error('Unknown step');
     }
@@ -65,14 +67,18 @@ export default function ElectricityToCarbon() {
     const [date, setDate] = useState(new Date());
 
     const handleNext = () => {
-        setActiveStep(activeStep + 1);
+        setActiveStep(prev => prev + 1);
     };
 
     const handleBack = () => {
-        setActiveStep(activeStep - 1);
+        if (activeStep > steps.length - 1) {
+            setActiveStep(steps.length - 2);
+        } else {
+            setActiveStep(prev => prev - 1);
+        }
     };
 
-    const isLastStep = activeStep === steps.length - 1;
+    const isLastStep = activeStep >= steps.length - 1;
     return (
         <AppContext.Provider value={{
             setIsValide,
@@ -82,6 +88,8 @@ export default function ElectricityToCarbon() {
             setCountry,
             date,
             setDate,
+            activeStep,
+            setActiveStep,
         }}>
             <CssBaseline />
             <WithAnimation>
