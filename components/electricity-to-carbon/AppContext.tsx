@@ -1,14 +1,20 @@
-import React, {createContext, useState} from 'react';
+import React, {createContext} from 'react';
 
 interface AppContextInterface {
-    isValide: boolean;
+    country: string;
+    setCountry: React.Dispatch<React.SetStateAction<string>>;
+    date: Date;
+    setDate: React.Dispatch<React.SetStateAction<Date>>;
     setIsValide: React.Dispatch<React.SetStateAction<boolean>>;
     electricityValues: number[];
     setElectricityValues: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
 const AppContext = createContext<AppContextInterface>({
-    isValide: false,
+    country: '',
+    setCountry: () => {},
+    date: new Date(),
+    setDate: () => {},
     setIsValide: () => {},
     electricityValues: [],
     setElectricityValues: () => {}

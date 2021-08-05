@@ -8,6 +8,7 @@ import Copyright from './Copyright';
 import CustomStepper, {steps} from './CustomStepper';
 import UsageForm from './UsageForm';
 import AppContext from './AppContext';
+import CountryForm from './CountryForm';
 
 const useStyles = makeStyles((theme) => ({
     layout: {
@@ -45,7 +46,7 @@ function getStepContent(step: number) {
         case 0:
             return <UsageForm />;
         case 1:
-            return <p>2</p>;
+            return <CountryForm />;
         case 2:
             return <p>3</p>;
         default:
@@ -58,6 +59,8 @@ export default function ElectricityToCarbon() {
     const [activeStep, setActiveStep] = useState(0);
     const [isValide, setIsValide] = useState(false);
     const [electricityValues, setElectricityValues] = useState([0, 0, 0, 0, 0, 0, 0]);
+    const [country, setCountry] = useState('');
+    const [date, setDate] = useState(new Date());
 
     const handleNext = () => {
         setActiveStep(activeStep + 1);
@@ -72,7 +75,11 @@ export default function ElectricityToCarbon() {
         <AppContext.Provider value={{
             setIsValide,
             electricityValues,
-            setElectricityValues
+            setElectricityValues,
+            country,
+            setCountry,
+            date,
+            setDate,
         }}>
             <CssBaseline />
             <main className={classes.layout}>
