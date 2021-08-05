@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Copyright from './Copyright';
 import CustomStepper, {steps} from './CustomStepper';
+import UsageForm from './UsageForm';
 
 const useStyles = makeStyles((theme) => ({
     layout: {
@@ -41,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
 function getStepContent(step: number) {
     switch (step) {
         case 0:
-            return <p>1</p>;
+            return <UsageForm />;
         case 1:
             return <p>2</p>;
         case 2:
