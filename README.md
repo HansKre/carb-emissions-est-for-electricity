@@ -26,6 +26,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 Following `curl` command should return a valid API-response:
 
+### Example-Request
+
 ```bash
 export CARBONINTERFACE_API_KEY=<yourkeystring>
 
@@ -33,7 +35,29 @@ curl "https://www.carboninterface.com/api/v1/estimates" \
   -H "Authorization: Bearer \"${CARBONINTERFACE_API_KEY}\"" \
   -H "Content-Type: application/json" \
   -X POST \
-  -d '{"type": "electricity","electricity_unit": "mwh","electricity_value": 42,"country": "us","state": "fl"}'
+  -d '{"type": "electricity","electricity_unit": "mwh","electricity_value": 17,"country": "us","state": "fl"}' | jq .
+```
+
+### Example-Response
+
+```json
+{
+  "data": {
+    "id": "e940c8a9-7297-4560-8944-66834de107b1",
+    "type": "estimate",
+    "attributes": {
+      "country": "us",
+      "state": "fl",
+      "electricity_unit": "mwh",
+      "electricity_value": 17,
+      "estimated_at": "2021-08-06T14:27:59.751Z",
+      "carbon_g": 6763764,
+      "carbon_lb": 14911.55,
+      "carbon_kg": 6763.76,
+      "carbon_mt": 6.76
+    }
+  }
+}
 ```
 
 ## Deployment
