@@ -5,8 +5,8 @@ import {makeStyles} from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
 import weekdays from '../utils/weekdays';
 import AppContext from './AppContext';
+import {LOCALE} from './constants';
 
-const LOCALE = 'en-UK';
 const MIN = 0, MAX = 300, STEP_COUNT = 100;
 
 const useStyles = makeStyles((theme) => ({

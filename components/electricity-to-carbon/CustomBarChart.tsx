@@ -1,5 +1,6 @@
 import {useTheme} from '@material-ui/core';
 import {Bar, BarChart, CartesianGrid, ReferenceLine, Tooltip, XAxis, YAxis} from 'recharts';
+import {LOCALE} from './constants';
 
 export type ChartData = {
     weekday: string,
@@ -13,6 +14,12 @@ type Props = {
 export default function CustomBarChart(props: Props) {
     const {data} = props;
     const theme = useTheme();
+    const tickFormatter = (value: any, index: number): string => {
+        if (typeof value === 'number') {
+            return Math.round(value / 1000).toLocaleString(LOCALE);
+        }
+        return value;
+    }
     return (
         // TODO: wrap in ResponsiveChart?
         <BarChart
@@ -26,7 +33,7 @@ export default function CustomBarChart(props: Props) {
         >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="weekday" />
-            <YAxis />
+            <YAxis name='emissions' unit=' tons' tickFormatter={tickFormatter} />
             <Bar dataKey="value" fill={theme.palette.secondary.main} />
         </BarChart>
     );
