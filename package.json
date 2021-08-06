@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test:open": "(npm run build) && (npm run start &) && (cypress open)",
+    "test:run": "(npm run build) && (npm run start &) && (cypress run --browser chrome)",
+    "test": "npm run test:run"
   },
   "dependencies": {
     "@date-io/date-fns": "^1.3.13",
@@ -23,6 +26,7 @@
   },
   "devDependencies": {
     "@types/react": "^17.0.15",
+    "cypress": "^8.2.0",
     "typescript": "^4.3.5"
   },
   "author": "Hans Krebs",

@@ -32,3 +32,9 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# cypress examples
+.1-getting-started/
+.2-advanced-examples/
+cypress/fixtures/example.json
+cypress/videos/
