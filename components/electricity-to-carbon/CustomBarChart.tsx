@@ -17,23 +17,32 @@ export default function CustomBarChart(props: Props) {
     const theme = useTheme();
     // smaller than XS
     const isXs = useMediaQuery(theme.breakpoints.down('xs'));
-    const tickFormatter = (value: any, index: number): string => {
+
+    const tickFormatterY = (value: any, index: number): string => {
         if (typeof value === 'number') {
             return Math.round(value / 1000).toLocaleString(LOCALE);
         }
         return value;
     }
+
+    const tickFormatterX = (value: any, index: number): string => {
+        if (isXs && typeof value === 'string') {
+            return value.substr(0, 2);
+        }
+        return value;
+    }
+
     return (
-        <ResponsiveContainer width="100%" height={isXs ? 250 : 350}>
+        <ResponsiveContainer width="100%" height={isXs ? 250 : 350} >
             <BarChart
                 data={data}
                 margin={{
-                    top: 5, right: 30, left: 20, bottom: 5,
+                    top: 5, right: isXs ? 0 : 30, left: isXs ? 10 : 20, bottom: 5,
                 }}
             >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="weekday" />
-                <YAxis name='emissions' unit=' tons' tickFormatter={tickFormatter} />
+                <XAxis dataKey="weekday" tickFormatter={tickFormatterX} />
+                <YAxis width={isXs ? 25 : 60} name='emissions' unit={isXs ? ' t' : ' tons'} tickFormatter={tickFormatterY} />
                 <Bar dataKey="value" fill={theme.palette.secondary.main} />
             </BarChart>
         </ResponsiveContainer>
