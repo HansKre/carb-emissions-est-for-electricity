@@ -103,11 +103,12 @@ export default function ElectricityToCarbon() {
                             {getStepContent(activeStep)}
                             <div className={classes.buttons}>
                                 {activeStep !== 0 && (
-                                    <Button onClick={handleBack} className={classes.button}>
+                                    <Button id="back-btn" onClick={handleBack} className={classes.button}>
                                         Back
                                     </Button>
                                 )}
                                 <Button
+                                    id="continue-btn"
                                     variant="contained"
                                     color="primary"
                                     onClick={handleNext}

@@ -58,6 +58,7 @@ export default function VerticalSlider(props: Props) {
     const classes = useStyles();
     return (
         <Slider
+            id="slider"
             color="secondary"
             orientation="vertical"
             aria-labelledby="weekday-slider"
