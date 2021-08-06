@@ -6,6 +6,13 @@ import {LOCALE} from './constants';
 const MIN = 0, MAX = 300, STEP_COUNT = 100;
 
 const useStyles = makeStyles((theme) => ({
+    root: {
+        '& span.MuiSlider-markLabel': {
+            transform: 'none',
+            left: '-14px',
+            marginBottom: '17px',
+        }
+    },
     vertical: {
         marginLeft: theme.spacing(3),
     },
@@ -64,6 +71,7 @@ export default function VerticalSlider(props: Props) {
                 thumb: classes.thumb,
                 valueLabel: classes.valueLabel
             }}
+            className={classes.root}
         />
     )
 }

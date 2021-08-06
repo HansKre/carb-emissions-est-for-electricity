@@ -13,13 +13,6 @@ a {
   box-sizing: border-box;
 }
 
-/* move upper mark-label to the right */
-.MuiSlider-vertical .MuiSlider-markLabel {
-  transform: none !important;
-  left: -14px !important;
-  margin-bottom: 17px !important;
-}
-
 /* move datepicker icon to the right to align with icon from select */
 .MuiIconButton-root {
   left: 8px;
