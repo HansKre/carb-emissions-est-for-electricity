@@ -65,3 +65,4 @@ Highly welcome. Please submit via PR.
   - [ ] how to use
   - [ ] where to put own API-Key
 - [ ] Add state-selection for USA & Canada
+- [ ] Implement horizontal sliders for mobile screens
