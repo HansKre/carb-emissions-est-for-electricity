@@ -2,6 +2,8 @@ import React, {useEffect, useContext} from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import {makeStyles} from '@material-ui/core/styles';
+import {useTheme} from '@material-ui/core';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import weekdays from '../utils/weekdays';
 import AppContext from './AppContext';
 import VerticalSlider from './VerticalSlider';
@@ -11,9 +13,15 @@ const useStyles = makeStyles((theme) => ({
         height: 190,
         marginTop: theme.spacing(2),
         marginBottom: theme.spacing(1),
+        [theme.breakpoints.down('sm')]: {
+            maxWidth: 20
+        },
     },
     marginLeft: {
         marginLeft: theme.spacing(3),
+        [theme.breakpoints.down('sm')]: {
+            marginLeft: theme.spacing(2),
+        },
     },
     container: {
         marginTop: theme.spacing(4),
@@ -28,6 +36,9 @@ export default function UsageForm() {
         electricityValues,
         setElectricityValues
     } = useContext(AppContext);
+    const theme = useTheme();
+    // smaller than XS
+    const isXs = useMediaQuery(theme.breakpoints.down('xs'));
 
     const notEmpty = (arr: number[]): boolean => {
         const sum = arr.reduce((acc, curr) => acc + curr, 0);

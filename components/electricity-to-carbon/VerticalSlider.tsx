@@ -7,7 +7,7 @@ const MIN = 0, MAX = 300, STEP_COUNT = 100;
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        '& span.MuiSlider-markLabel': {
+        '& .MuiSlider-markLabel': {
             transform: 'none',
             left: '-14px',
             marginBottom: '17px',
@@ -15,6 +15,9 @@ const useStyles = makeStyles((theme) => ({
     },
     vertical: {
         marginLeft: theme.spacing(3),
+        [theme.breakpoints.down('sm')]: {
+            marginLeft: theme.spacing(2),
+        },
     },
     thumb: {
         borderRadius: '1px',
