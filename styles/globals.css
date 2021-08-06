@@ -12,8 +12,3 @@ a {
 * {
   box-sizing: border-box;
 }
-
-/* move datepicker icon to the right to align with icon from select */
-.MuiIconButton-root {
-  left: 8px;
-}

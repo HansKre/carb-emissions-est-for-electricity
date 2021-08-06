@@ -25,6 +25,11 @@ const useStyles = makeStyles((theme) => ({
     },
     container: {
         marginTop: '15px',
+    },
+    datePickerRoot: {
+        '& .MuiIconButton-root': {
+            left: '8px'
+        }
     }
 }));
 
@@ -109,6 +114,7 @@ export default function CountryForm() {
                                 'aria-label': 'change date',
                             }}
                             color="secondary"
+                            className={classes.datePickerRoot}
                         />
                     </MuiPickersUtilsProvider>
                 </Grid>
