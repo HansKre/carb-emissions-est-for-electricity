@@ -28,16 +28,28 @@ const mockApiCall = async (country: string, value: number): Promise<Response<num
     ), delay));
 }
 
+const cache = new Map();
+function key(country: any, value: any): any {
+    return `${country}-${value}`;
+}
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== 'POST') {
         res.status(405).send('Method Not Allowed.')
         return false;
     }
     const {country, value} = req.body;
+    if (cache.has(key(country, value))) {
+        res.status(200).json(cache.get(key(country, value)));
+        return true;
+    }
     if (country && value) {
         const response = await mockApiCall(country, value);
+        cache.set(key(country, value), response);
         res.status(response.status).json(response);
+        return true;
     } else {
         res.status(400).send('Bad Request.');
+        return false;
     }
 }
