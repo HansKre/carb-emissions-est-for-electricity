@@ -2,12 +2,9 @@ import React, {useEffect, useContext} from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import {makeStyles} from '@material-ui/core/styles';
-import Slider from '@material-ui/core/Slider';
 import weekdays from '../utils/weekdays';
 import AppContext from './AppContext';
-import {LOCALE} from './constants';
-
-const MIN = 0, MAX = 300, STEP_COUNT = 100;
+import VerticalSlider from './VerticalSlider';
 
 const useStyles = makeStyles((theme) => ({
     sliderContainer: {
@@ -18,41 +15,11 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: {
         marginLeft: theme.spacing(3),
     },
-    vertical: {
-        marginLeft: theme.spacing(3),
-    },
     container: {
         marginTop: theme.spacing(4),
         flexWrap: 'nowrap',
     },
-    thumb: {
-        borderRadius: '1px',
-        height: '20px',
-        width: '26px',
-        left: '7px'
-    },
-    valueLabel: {
-        left: '0 !important',
-        transform: 'none !important',
-        position: 'initial',
-        textAlign: 'center',
-        top: '5px',
-        "& *": {
-            background: "transparent",
-        }
-    },
 }));
-
-const valuetext = (value: number) => {
-    return `${value.toLocaleString(LOCALE)}mwh`;
-}
-
-const MARKS = [
-    {
-        value: MAX,
-        label: valuetext(MAX),
-    },
-];
 
 export default function UsageForm() {
     const classes = useStyles();
@@ -100,23 +67,9 @@ export default function UsageForm() {
                     return (
                         <Grid key={i} item container direction="column">
                             <Grid item className={classes.sliderContainer}>
-                                <Slider
-                                    color="secondary"
-                                    orientation="vertical"
-                                    aria-labelledby="weekday-slider"
-                                    getAriaValueText={valuetext}
-                                    min={MIN}
-                                    max={MAX}
-                                    step={(MAX - MIN) / STEP_COUNT}
-                                    marks={MARKS}
-                                    valueLabelDisplay="on"
+                                <VerticalSlider
                                     value={electricityValues[i]}
                                     onChange={(event, value) => handleChange(value, i)}
-                                    classes={{
-                                        vertical: classes.vertical,
-                                        thumb: classes.thumb,
-                                        valueLabel: classes.valueLabel
-                                    }}
                                 />
                             </Grid>
                             <Typography
