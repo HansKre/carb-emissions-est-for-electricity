@@ -90,3 +90,4 @@ Highly welcome. Please submit via PR.
   - [ ] where to put own API-Key
 - [ ] Add state-selection for USA & Canada
 - [ ] Implement horizontal sliders for mobile screens
+- [ ] Make Icons open Select and Datepicker in CountryForm
