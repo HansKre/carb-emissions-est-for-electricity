@@ -33,11 +33,11 @@ export default function CustomBarChart(props: Props) {
     }
 
     return (
-        <ResponsiveContainer width="100%" height={isXs ? 250 : 350} >
+        <ResponsiveContainer width="100%" height={isXs ? 250 : 250} >
             <BarChart
                 data={data}
                 margin={{
-                    top: 5, right: isXs ? 0 : 30, left: isXs ? 10 : 20, bottom: 5,
+                    top: isXs ? 15 : 5, right: isXs ? 0 : 30, left: isXs ? 10 : 20, bottom: 5,
                 }}
             >
                 <CartesianGrid strokeDasharray="3 3" />
