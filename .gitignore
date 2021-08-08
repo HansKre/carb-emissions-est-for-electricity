@@ -38,3 +38,6 @@ yarn-error.log*
 .2-advanced-examples/
 cypress/fixtures/example.json
 cypress/videos/
+
+# secrets
+.env
