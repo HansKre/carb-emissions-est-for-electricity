@@ -29,6 +29,17 @@ export default function Emissions() {
     const [dataWhileLoading, setDataWhileLoading] = useState<ChartData[]>(weekday.map(d => ({weekday: d, value: 0})));
     const [isLoading, setIsLoading] = useState(false);
     const [apiCallSucceeded, setApiCallSucceeded] = useState(false);
+    const [apiCallFailed, setApiCallFailed] = useState(false);
+
+    function apiCallDidSucceed() {
+        setApiCallSucceeded(true);
+        setApiCallFailed(false);
+    }
+
+    function apiCallDidFail() {
+        setApiCallSucceeded(false);
+        setApiCallFailed(true);
+    }
 
     useEffect(() => {
         setIsLoading(true);
@@ -55,7 +66,7 @@ export default function Emissions() {
         Promise.all(pendingRequests)
             .then(() => {
                 setIsLoading(false);
-                setApiCallSucceeded(true);
+                apiCallDidSucceed();
                 setData(dataWhileLoading);
                 if (activeStep < steps.length) {
                     setActiveStep(prev => prev + 1);
@@ -63,7 +74,7 @@ export default function Emissions() {
             })
             .catch((e) => {
                 console.log(e);
-                setApiCallSucceeded(false);
+                apiCallDidFail();
                 setIsLoading(false);
             });
     }, [electricityValues]);
@@ -74,19 +85,18 @@ export default function Emissions() {
             <Typography variant="h6" gutterBottom>
                 Your carbon emissions
             </Typography>
-            {apiCallSucceeded ?
-                <CustomBarChart data={data} />
-                : <Grid container alignItems="center" >
-                    <Typography
-                        id="errorMsg"
-                        variant="body2"
-                        color="error"
-                        className={classes.errorTypo}
-                    >
-                        Ooops, we are really sorry that something went wrong...
-                    </Typography>
-                    <SentimentVeryDissatisfiedIcon color="error" />
-                </Grid>
+            {apiCallSucceeded && <CustomBarChart data={data} />}
+            {apiCallFailed && <Grid container alignItems="center" >
+                <Typography
+                    id="errorMsg"
+                    variant="body2"
+                    color="error"
+                    className={classes.errorTypo}
+                >
+                    Ooops, we are really sorry that something went wrong...
+                </Typography>
+                <SentimentVeryDissatisfiedIcon color="error" />
+            </Grid>
             }
         </>
     );

@@ -165,7 +165,7 @@ describe('User Journey', () => {
                 cy.get('.recharts-rectangle').should('have.length', 1);
             });
 
-            it('should fail gracefully and show error message when api-call fails', () => {
+            it('should fail gracefully and show error message only when api-call fails', () => {
                 cy.intercept({
                     method: 'POST',
                     url: '/api/estimates*',
@@ -173,9 +173,21 @@ describe('User Journey', () => {
                     statusCode: 500,
                     body: {
                         foo: 'bar',
-                    }
+                    },
+                    delay: 2000, // milliseconds
                 }).as('apiCall');
+                cy.intercept('POST', '/api*', (req) => {
+                    req.continue((res) => {
+                        // the response will not be sent to the browser until
+                        // promise resolves
+                        return new Promise((resolve) => {
+                            setTimeout(() => { }, 2000)
+                        });
+                    });
+                });
                 navigateToEmissions();
+                cy.get('[id="errorMsg"]').should('not.exist');
+                cy.get('[id="chart"]').should('not.exist');
                 cy.wait(['@apiCall']);
                 cy.get('[id="errorMsg"]').should('exist');
                 cy.get('[id="chart"]').should('not.exist');
@@ -203,7 +215,7 @@ function navigateToEmissions() {
     countrySelect().click();
     cy.get(`[data-value="${countries[0].value}"]`).click();
     continueButton().click();
-    formTitle().contains('Your carbon emissions');
+    return formTitle().contains('Your carbon emissions');
 }
 
 function sliderValueLabel(n) {
