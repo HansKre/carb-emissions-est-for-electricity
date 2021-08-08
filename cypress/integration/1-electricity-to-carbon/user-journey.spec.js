@@ -1,6 +1,15 @@
 import countries from '../../../components/electricity-to-carbon/countries';
 
 describe('User Journey', () => {
+    beforeEach(() => {
+        // redirect all real api-calls to mocked api
+        cy.intercept('POST', '/api/estimates', (req) => {
+            if (!req.url.includes('/mock')) {
+                req.url = req.url + '/mock';
+            }
+        });
+    });
+
     context('Desktop', () => {
         beforeEach(() => {
             cy.viewport(1280, 720);
@@ -138,9 +147,39 @@ describe('User Journey', () => {
                 cy.visit('/');
             });
 
-            it('todo', () => {
-                // TODO
+            it('continue-button should be disabled and back-button enabled', () => {
+                navigateToEmissions();
+                continueButton().should('be.disabled');
+                backButton().should('be.enabled');
             });
+
+            it('should make api-call and render exactly one bar', () => {
+                cy.intercept({
+                    method: 'POST',
+                    url: '/api/estimates*',
+                }).as('apiCall');
+                navigateToEmissions();
+                cy.wait(['@apiCall'])
+                cy.get('[id="chart"]').should('exist');
+                cy.get('[id="errorMsg"]').should('not.exist');
+                cy.get('.recharts-rectangle').should('have.length', 1);
+            });
+
+            it('should fail gracefully and show error message when api-call fails', () => {
+                cy.intercept({
+                    method: 'POST',
+                    url: '/api/estimates*',
+                }, {
+                    statusCode: 500,
+                    body: {
+                        foo: 'bar',
+                    }
+                }).as('apiCall');
+                navigateToEmissions();
+                cy.wait(['@apiCall']);
+                cy.get('[id="errorMsg"]').should('exist');
+                cy.get('[id="chart"]').should('not.exist');
+            })
         });
     });
 });
@@ -157,6 +196,14 @@ function navigateToCountryForm() {
     sliderThumb(3).click();
     continueButton().click();
     formTitle().contains('Please provide your Country and Date');
+}
+
+function navigateToEmissions() {
+    navigateToCountryForm();
+    countrySelect().click();
+    cy.get(`[data-value="${countries[0].value}"]`).click();
+    continueButton().click();
+    formTitle().contains('Your carbon emissions');
 }
 
 function sliderValueLabel(n) {
