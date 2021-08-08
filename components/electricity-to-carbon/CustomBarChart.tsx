@@ -10,10 +10,11 @@ export type ChartData = {
 
 type Props = {
     data: ChartData[];
+    id?: string;
 }
 
 export default function CustomBarChart(props: Props) {
-    const {data} = props;
+    const {data, id = 'chart'} = props;
     const theme = useTheme();
     // smaller than XS
     const isXs = useMediaQuery(theme.breakpoints.down('xs'));
@@ -39,6 +40,7 @@ export default function CustomBarChart(props: Props) {
                 margin={{
                     top: isXs ? 15 : 5, right: isXs ? 0 : 30, left: isXs ? 10 : 20, bottom: 5,
                 }}
+                id={id}
             >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="weekday" tickFormatter={tickFormatterX} />

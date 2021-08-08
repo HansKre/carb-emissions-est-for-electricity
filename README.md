@@ -80,6 +80,8 @@ Highly welcome. Please submit via PR.
 - [x] sign up at [carboninterface](https://www.carboninterface.com/dashboard) for API-Key
 - [x] setup hosting at netlify
 - [ ] add tests
+  - [x] for desktop
+  - [ ] for mobile
 - [ ] document concept for
   - [ ] architecture
   - [ ] design
