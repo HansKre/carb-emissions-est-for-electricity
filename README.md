@@ -1,20 +1,24 @@
 # Description
 
-React-based web-application which lets you enter your electricity usage for a week to and renders your estimated carbon emissions taking into account your location and date.
+React-based web-application which renders your estimated carbon emissions
+based on your input for country and electricity usage for a week.
 
-Please visit the [demo here](https://hardcore-bhabha-ce15d5.netlify.app).
+## How to use
 
-## Installation
+Please visit the [application here](https://hardcore-bhabha-ce15d5.netlify.app).
+
+## Development
+
+Clone the repo:
 
 ```bash
 git clone git@github.com:HansKre/carb-emissions-est-for-electricity.git
 ```
 
-## Development
-
-Inside project-folder, run the development server:
+Run development server:
 
 ```bash
+cd carb-emissions-est-for-electricity
 npm run dev
 # or
 yarn dev
@@ -22,7 +26,26 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Test your API-Key
+## Testing
+
+Tests are implemented using [`cypress.io`](https://www.cypress.io/), an End to End Testing Framework.
+Run `npm test` to receive a test-report or `npm run test:open` to run tests interactively.
+
+## Bring your own `API-Key`
+
+Since the free-tier of `https://www.carboninterface.com`-API is limited to 200 requests per month, following precautions are implemented:
+
+- all non-production-api-calls are mocked
+- all api-calls made by tests are mocked
+- all production-api-calls are cached server-side
+
+If you want to use your own `API-Key` locally, please make sure to:
+
+- rename `.env.example` file to `.env`
+- inside the `.env`, add your `API-Key` to `CARBONINTERFACE_API_KEY` property
+- run with `npm run prod`
+
+## Test your `API-Key`
 
 Following `curl` command should return a valid API-response:
 
@@ -67,12 +90,12 @@ On a push to `github`, Netlify runs the build script on their servers and deploy
 
 ## Contributions
 
-Highly welcome. Please submit via PR.
+Highly welcome. Please submit a PR.
 
 ## Compatibility
 
-- `KeyboardTimePicker` needs `MuiPickersUtilsProvider` which uses `DateFnsUtils` from `@date-io/date-fns` package. It seems, that a specific version is required. Install it with `npm install @date-io/date-fns@1.3.13`.
-- [`JSS` fix for `SSR`](https://medium.com/wesionary-team/implementing-react-jss-on-next-js-projects-7ceaee985cad): fixes 'Warning: Prop `className` did not match.' issue when reloading page during development while running `npm run dev`.
+- `KeyboardTimePicker` needs `MuiPickersUtilsProvider` which uses `DateFnsUtils` from `@date-io/date-fns` package. For compatibility reasons, version `1.3.x` is required. Install it with `npm install @date-io/date-fns@1.3.13`.
+- [`JSS` fix for `SSR`](https://material-ui.com/styles/advanced/#next-js): fixes 'Warning: Prop `className` did not match.' issue when reloading page during development while running `npm run dev`.
 
 ## Backlog
 
@@ -82,14 +105,11 @@ Highly welcome. Please submit via PR.
 - [ ] add tests
   - [x] for desktop
   - [ ] for mobile
-- [ ] document concept for
-  - [ ] architecture
-  - [ ] design
-- [ ] final review of review
+- [x] final review of review
   - [x] how to install
-  - [ ] how to test
-  - [ ] how to use
-  - [ ] where to put own API-Key
+  - [x] how to test
+  - [x] how to use
+  - [x] where to put own API-Key
 - [ ] Add state-selection for USA & Canada
-- [ ] Implement horizontal sliders for mobile screens
-- [ ] Make Icons open Select and Datepicker in CountryForm
+- [ ] For small mobile screens, change sliders orientation to horizontal
+- [ ] Make Icons-onClick open Select and Datepicker in CountryForm
