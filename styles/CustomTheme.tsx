@@ -37,7 +37,17 @@ const CustomTheme = createTheme({
                     backgroundColor: secondary.dark
                 }
             }
-        }
+        },
+        MuiSelect: {
+            root: {
+                backgroundColor: primary.contrastText
+            }
+        },
+        MuiInputBase: {
+            root: {
+                backgroundColor: primary.contrastText
+            }
+        },
     },
 });
 

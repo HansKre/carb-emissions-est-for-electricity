@@ -41,6 +41,7 @@ export default function CustomBarChart(props: Props) {
                     top: isXs ? 15 : 5, right: isXs ? 0 : 30, left: isXs ? 10 : 20, bottom: 5,
                 }}
                 id={id}
+                style={{backgroundColor: theme.palette.primary.contrastText}}
             >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="weekday" tickFormatter={tickFormatterX} />

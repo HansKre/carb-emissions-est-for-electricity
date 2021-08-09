@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.down('sm')]: {
             maxWidth: 20
         },
+        backgroundColor: theme.palette.primary.contrastText
     },
     marginLeft: {
         marginLeft: theme.spacing(3),
@@ -27,6 +28,9 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(4),
         flexWrap: 'nowrap',
     },
+    background: {
+        backgroundColor: theme.palette.primary.contrastText
+    }
 }));
 
 export default function UsageForm() {
@@ -76,7 +80,7 @@ export default function UsageForm() {
             <Grid container className={classes.container}>
                 {[...Array(7)].map((v, i) => {
                     return (
-                        <Grid key={i} item container direction="column">
+                        <Grid key={i} item container className={classes.background} direction="column">
                             <Grid item className={classes.sliderContainer}>
                                 <VerticalSlider
                                     value={electricityValues[i]}

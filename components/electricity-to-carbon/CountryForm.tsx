@@ -69,7 +69,7 @@ export default function CountryForm() {
             </Typography>
             <Grid container spacing={5} direction="row" className={classes.container} >
                 <Grid item xs={12} sm={3} className={classes.center}>
-                    <ExploreIcon color="secondary" style={{fontSize: 60}} />
+                    <ExploreIcon color="primary" style={{fontSize: 60}} />
                 </Grid>
                 <Grid item xs={12} sm={9}>
                     <FormControl required size="small" fullWidth className={classes.formControl}>
@@ -94,7 +94,7 @@ export default function CountryForm() {
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={3} className={classes.center}>
-                    <EventIcon color="secondary" style={{fontSize: 60}} className={classes.eventIcon} />
+                    <EventIcon color="primary" style={{fontSize: 60}} className={classes.eventIcon} />
                 </Grid>
                 <Grid item xs={12} sm={9}>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
