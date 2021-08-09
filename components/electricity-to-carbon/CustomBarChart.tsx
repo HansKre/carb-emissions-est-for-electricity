@@ -45,7 +45,7 @@ export default function CustomBarChart(props: Props) {
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="weekday" tickFormatter={tickFormatterX} />
                 <YAxis width={isXs ? 25 : 60} name='emissions' unit={isXs ? ' t' : ' tons'} tickFormatter={tickFormatterY} />
-                <Bar dataKey="value" fill={theme.palette.secondary.main} />
+                <Bar dataKey="value" fill={theme.palette.primary.main} />
             </BarChart>
         </ResponsiveContainer>
     );

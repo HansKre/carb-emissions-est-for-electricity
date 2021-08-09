@@ -59,7 +59,7 @@ export default function VerticalSlider(props: Props) {
     return (
         <Slider
             id="slider"
-            color="secondary"
+            color="primary"
             orientation="vertical"
             aria-labelledby="weekday-slider"
             getAriaValueText={valuetext}
