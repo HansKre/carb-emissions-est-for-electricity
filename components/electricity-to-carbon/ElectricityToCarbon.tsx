@@ -18,6 +18,8 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const MIN_PAPER_HEIGHT = 550;
 
+const responsive100vh = document?.documentElement?.clientHeight || window?.innerHeight;
+
 const useStyles = makeStyles((theme) => ({
     topAppBar: {
         paddingTop: theme.spacing(3),
@@ -50,23 +52,23 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(-3),
         marginBottom: theme.spacing(2),
         padding: theme.spacing(2),
-        height: window?.innerHeight - theme.spacing(12),
+        height: responsive100vh - theme.spacing(12),
         [theme.breakpoints.down('xs')]: {
-            height: Math.max(window?.innerHeight - theme.spacing(24), MIN_PAPER_HEIGHT + 10),
+            height: Math.max(responsive100vh - theme.spacing(24), MIN_PAPER_HEIGHT + 10),
         },
         // contain layout-width on wider screens
         [theme.breakpoints.up('sm')]: {
             marginTop: theme.spacing(-3),
             marginBottom: theme.spacing(2),
             padding: theme.spacing(3),
-            height: Math.max(window?.innerHeight - theme.spacing(23), MIN_PAPER_HEIGHT),
+            height: Math.max(responsive100vh - theme.spacing(23), MIN_PAPER_HEIGHT),
         },
         // no line-break on header
         [theme.breakpoints.up(615)]: {
-            height: Math.max(window?.innerHeight - theme.spacing(17), MIN_PAPER_HEIGHT),
+            height: Math.max(responsive100vh - theme.spacing(17), MIN_PAPER_HEIGHT),
         },
         [theme.breakpoints.up('md')]: {
-            height: Math.max(window?.innerHeight - theme.spacing(17), MIN_PAPER_HEIGHT),
+            height: Math.max(responsive100vh - theme.spacing(17), MIN_PAPER_HEIGHT),
         },
     },
     buttons: {
