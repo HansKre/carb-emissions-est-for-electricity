@@ -3,7 +3,7 @@ import {PaletteColor} from '@material-ui/core/styles/createPalette';
 
 const primary: PaletteColor = {
     main: '#262626',
-    light: '#4e4e4e',
+    light: '#2c2c2c',
     dark: '#000000',
     contrastText: '#f2f2f2',
 };
@@ -28,6 +28,11 @@ const CustomTheme = createTheme({
                 backgroundColor: secondary.light,
             },
         },
+        MuiList: {
+            root: {
+                backgroundColor: primary.contrastText,
+            },
+        },
         MuiListItem: {
             root: {
                 backgroundColor: primary.contrastText,
@@ -38,12 +43,12 @@ const CustomTheme = createTheme({
                 }
             }
         },
-        MuiSelect: {
+        MuiFormLabel: {
             root: {
-                backgroundColor: primary.contrastText
+                zIndex: 1,
             }
         },
-        MuiInputBase: {
+        MuiInput: {
             root: {
                 backgroundColor: primary.contrastText
             }
