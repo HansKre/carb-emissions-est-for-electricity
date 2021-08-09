@@ -2,6 +2,8 @@ import React from 'react'
 import Slider from '@material-ui/core/Slider'
 import {makeStyles} from '@material-ui/core/styles';
 import {LOCALE} from './constants';
+import {useTheme} from '@material-ui/core';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const MIN = 0, MAX = 300, STEP_COUNT = 100;
 
@@ -44,8 +46,12 @@ type Props = {
 
 export default function VerticalSlider(props: Props) {
     const {value, onChange} = props;
+    const theme = useTheme();
+    // smaller than XS
+    const isXs = useMediaQuery(theme.breakpoints.down('xs'));
     const valuetext = (value: number) => {
-        return `${value.toLocaleString(LOCALE)}mwh`;
+        const localizedVal = `${value.toLocaleString(LOCALE)}`
+        return isXs ? `${localizedVal}` : `${localizedVal}mwh`;
     }
 
     const MARKS = [
