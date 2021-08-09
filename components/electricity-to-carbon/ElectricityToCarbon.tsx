@@ -11,8 +11,27 @@ import AppContext from './AppContext';
 import CountryForm from './CountryForm';
 import Emissions from './Emissions';
 import WithAnimation from './WithAnimation';
+import AppBar from '@material-ui/core/AppBar/AppBar';
+import Grid from '@material-ui/core/Grid';
+import {useTheme} from '@material-ui/core';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+
+const MIN_PAPER_HEIGHT = 550;
 
 const useStyles = makeStyles((theme) => ({
+    topAppBar: {
+        paddingTop: theme.spacing(3),
+        paddingBottom: theme.spacing(5),
+        backgroundColor: theme.palette.primary.dark,
+    },
+    bottomAppBar: {
+        paddingTop: theme.spacing(5),
+        paddingBottom: theme.spacing(5),
+        top: 'auto',
+        bottom: 0,
+        zIndex: -1,
+        backgroundColor: theme.palette.primary.light,
+    },
     layout: {
         width: 'auto',
         marginLeft: theme.spacing(2),
@@ -22,15 +41,32 @@ const useStyles = makeStyles((theme) => ({
             marginLeft: 'auto',
             marginRight: 'auto',
         },
+        // extend width for high-density devices
+        [theme.breakpoints.up('md')]: {
+            width: 650,
+        },
     },
     paper: {
-        marginTop: theme.spacing(3),
-        marginBottom: theme.spacing(3),
+        marginTop: theme.spacing(-3),
+        marginBottom: theme.spacing(2),
         padding: theme.spacing(2),
-        [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-            marginTop: theme.spacing(6),
-            marginBottom: theme.spacing(6),
+        height: window?.innerHeight - theme.spacing(12),
+        [theme.breakpoints.down('xs')]: {
+            height: Math.max(window?.innerHeight - theme.spacing(24), MIN_PAPER_HEIGHT + 10),
+        },
+        // contain layout-width on wider screens
+        [theme.breakpoints.up('sm')]: {
+            marginTop: theme.spacing(-3),
+            marginBottom: theme.spacing(2),
             padding: theme.spacing(3),
+            height: Math.max(window?.innerHeight - theme.spacing(23), MIN_PAPER_HEIGHT),
+        },
+        // no line-break on header
+        [theme.breakpoints.up(615)]: {
+            height: Math.max(window?.innerHeight - theme.spacing(17), MIN_PAPER_HEIGHT),
+        },
+        [theme.breakpoints.up('md')]: {
+            height: Math.max(window?.innerHeight - theme.spacing(17), MIN_PAPER_HEIGHT),
         },
     },
     buttons: {
@@ -66,6 +102,10 @@ export default function ElectricityToCarbon() {
     const [country, setCountry] = useState('');
     const [date, setDate] = useState(new Date());
 
+    const theme = useTheme();
+    const isLandscape = useMediaQuery('(orientation: landscape)');
+    const isSm = useMediaQuery(theme.breakpoints.down('sm'));
+
     const handleNext = () => {
         setActiveStep(prev => prev + 1);
     };
@@ -93,35 +133,48 @@ export default function ElectricityToCarbon() {
         }}>
             <CssBaseline />
             <WithAnimation>
-                <main className={classes.layout}>
-                    <Paper className={classes.paper}>
-                        <Typography component="h1" variant="h4" align="center">
-                            Estimate your weekly carbon emissions!
-                        </Typography>
-                        <CustomStepper activeStep={activeStep} />
-                        <>
-                            {getStepContent(activeStep)}
-                            <div className={classes.buttons}>
-                                {activeStep !== 0 && (
-                                    <Button id="back-btn" onClick={handleBack} className={classes.button}>
-                                        Back
-                                    </Button>
-                                )}
-                                <Button
-                                    id="continue-btn"
-                                    variant="contained"
-                                    color="primary"
-                                    onClick={handleNext}
-                                    className={classes.button}
-                                    disabled={isLastStep || !isValide}
-                                >
-                                    Continue
-                                </Button>
-                            </div>
-                        </>
-                    </Paper>
-                    <Copyright />
-                </main>
+                <Grid container direction="column">
+                    <Grid item>
+                        <AppBar position="static" className={classes.topAppBar} >
+                            <Typography component="h1" variant="h4" align="center">
+                                Estimate your weekly carbon emissions!
+                            </Typography>
+                        </AppBar>
+                    </Grid>
+                    <Grid item className={classes.layout}>
+                        <Paper className={classes.paper}>
+                            <Grid container direction="column" style={{height: '100%'}} justifyContent="space-between">
+                                <Grid item>
+                                    <CustomStepper activeStep={activeStep} />
+                                </Grid>
+                                <Grid item>
+                                    {getStepContent(activeStep)}
+                                    <div className={classes.buttons}>
+                                        {activeStep !== 0 && (
+                                            <Button id="back-btn" onClick={handleBack} className={classes.button}>
+                                                Back
+                                            </Button>
+                                        )}
+                                        <Button
+                                            id="continue-btn"
+                                            variant="contained"
+                                            color="primary"
+                                            onClick={handleNext}
+                                            className={classes.button}
+                                            disabled={isLastStep || !isValide}
+                                        >
+                                            Continue
+                                        </Button>
+                                    </div>
+                                </Grid>
+                                <Copyright />
+                            </Grid>
+                        </Paper>
+                    </Grid>
+                    <Grid item>
+                        <AppBar position={(isLandscape && isSm) ? "relative" : undefined} className={classes.bottomAppBar}></AppBar>
+                    </Grid>
+                </Grid>
             </WithAnimation>
         </AppContext.Provider >
     );
