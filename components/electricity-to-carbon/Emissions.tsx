@@ -1,15 +1,13 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect} from 'react';
 import Typography from '@material-ui/core/Typography';
 import AppContext from './AppContext';
-import postRequest from '../utils/postRequest';
-import CustomBarChart, {ChartData} from './CustomBarChart';
-import weekday from '../utils/weekdays';
-import Response from '../../types/Response';
+import CustomBarChart from './CustomBarChart';
 import CustomBackdrop from '../backdrop/CustomBackdrop';
 import {steps} from './CustomStepper';
 import {makeStyles} from '@material-ui/core/styles';
 import SentimentVeryDissatisfiedIcon from '@material-ui/icons/SentimentVeryDissatisfied';
 import Grid from '@material-ui/core/Grid';
+import useFetch from './useFetch';
 
 const useStyles = makeStyles((theme) => ({
     errorTypo: {
@@ -18,66 +16,19 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const isDev = process.env.NODE_ENV !== 'production';
-const API_URL = isDev ? '/api/estimates/mock' : '/api/estimates';
-
 export default function Emissions() {
     const classes = useStyles();
     // TODO: avoid re-renders due to new reference
     const {country, electricityValues, activeStep, setActiveStep} = useContext(AppContext);
-    const [data, setData] = useState<ChartData[]>(weekday.map(d => ({weekday: d, value: 0})));
-    const [dataWhileLoading, setDataWhileLoading] = useState<ChartData[]>(weekday.map(d => ({weekday: d, value: 0})));
-    const [isLoading, setIsLoading] = useState(false);
-    const [apiCallSucceeded, setApiCallSucceeded] = useState(false);
-    const [apiCallFailed, setApiCallFailed] = useState(false);
-
-    function apiCallDidSucceed() {
-        setApiCallSucceeded(true);
-        setApiCallFailed(false);
-    }
-
-    function apiCallDidFail() {
-        setApiCallSucceeded(false);
-        setApiCallFailed(true);
-    }
+    const {data, isLoading, apiCallFailed, apiCallSucceeded} = useFetch(electricityValues, country);
 
     useEffect(() => {
-        setIsLoading(true);
-        const pendingRequests: Promise<any>[] = [];
-        electricityValues.forEach((value, i) => {
-            if (value) {
-                const pendingRequest = postRequest(API_URL, {
-                    country,
-                    value
-                })
-                    .then((response: Response) => {
-                        if (response.status === 200) {
-                            setDataWhileLoading(prev => {
-                                const newData = [...prev];
-                                const index = newData.findIndex(v => v.weekday === weekday[i]);
-                                newData[index].value = response.body ? response.body : 0;
-                                return newData;
-                            })
-                        }
-                    });
-                pendingRequests.push(pendingRequest);
+        if (!isLoading && apiCallSucceeded) {
+            if (activeStep < steps.length) {
+                setActiveStep(prev => prev + 1);
             }
-        });
-        Promise.all(pendingRequests)
-            .then(() => {
-                setIsLoading(false);
-                apiCallDidSucceed();
-                setData(dataWhileLoading);
-                if (activeStep < steps.length) {
-                    setActiveStep(prev => prev + 1);
-                }
-            })
-            .catch((e) => {
-                console.log(e);
-                apiCallDidFail();
-                setIsLoading(false);
-            });
-    }, [electricityValues]);
+        }
+    }, [data, isLoading, apiCallFailed]);
 
     return (
         <>
@@ -85,8 +36,8 @@ export default function Emissions() {
             <Typography variant="h6" gutterBottom>
                 Your carbon emissions
             </Typography>
-            {apiCallSucceeded && <CustomBarChart data={data} />}
-            {apiCallFailed && <Grid container alignItems="center" >
+            {!isLoading && apiCallSucceeded && <CustomBarChart data={data} />}
+            {!isLoading && apiCallFailed && <Grid container alignItems="center" >
                 <Typography
                     id="errorMsg"
                     variant="body2"
