@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(2),
         height: responsive100vh - theme.spacing(12),
         [theme.breakpoints.down('xs')]: {
-            height: Math.max(responsive100vh - theme.spacing(24), MIN_PAPER_HEIGHT + 10),
+            height: Math.max(responsive100vh - theme.spacing(24), MIN_PAPER_HEIGHT + 90),
         },
         // contain layout-width on wider screens
         [theme.breakpoints.up('sm')]: {

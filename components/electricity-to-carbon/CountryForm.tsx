@@ -12,6 +12,8 @@ import countries from './countries';
 import AppContext from './AppContext';
 import ExploreIcon from '@material-ui/icons/Explore';
 import EventIcon from '@material-ui/icons/Event';
+import {useTheme} from '@material-ui/core';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -20,11 +22,24 @@ const useStyles = makeStyles((theme) => ({
     center: {
         textAlign: 'center',
     },
+    exploreIcon: {
+        [theme.breakpoints.down('xs')]: {
+            marginTop: '0px',
+            marginBottom: theme.spacing(-2),
+        }
+    },
     eventIcon: {
         marginTop: '17px',
+        [theme.breakpoints.down('xs')]: {
+            marginTop: theme.spacing(1),
+            marginBottom: theme.spacing(-4),
+        }
     },
     container: {
         marginTop: '15px',
+        [theme.breakpoints.down('xs')]: {
+            marginTop: '0px',
+        }
     },
     datePickerRoot: {
         '& .MuiIconButton-root': {
@@ -42,6 +57,9 @@ export default function CountryForm() {
         date,
         setDate
     } = useContext(AppContext);
+    const theme = useTheme();
+    // smaller than XS
+    const isXs = useMediaQuery(theme.breakpoints.down('xs'));
 
     useEffect(() => {
         if (country) {
@@ -67,9 +85,9 @@ export default function CountryForm() {
             <Typography variant="h6" gutterBottom>
                 Please provide your Country and Date
             </Typography>
-            <Grid container spacing={5} direction="row" className={classes.container} >
+            <Grid container spacing={isXs ? 2 : 5} direction="row" className={classes.container} >
                 <Grid item xs={12} sm={3} className={classes.center}>
-                    <ExploreIcon color="primary" style={{fontSize: 60}} />
+                    <ExploreIcon color="primary" style={{fontSize: 60}} className={classes.exploreIcon} />
                 </Grid>
                 <Grid item xs={12} sm={9}>
                     <FormControl required size="small" fullWidth className={classes.formControl}>
