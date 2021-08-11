@@ -1,6 +1,8 @@
 type ChartData = {
     weekday: string;
-    value: number;
+    electricityValue: number;
+    carbonValue: number;
+    outdated: boolean;
 };
 
 export default ChartData;

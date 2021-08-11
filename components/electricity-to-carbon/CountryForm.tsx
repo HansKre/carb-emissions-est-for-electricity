@@ -55,7 +55,8 @@ export default function CountryForm() {
         country,
         setCountry,
         date,
-        setDate
+        setDate,
+        setData
     } = useContext(AppContext);
     const theme = useTheme();
     // smaller than XS
@@ -76,7 +77,15 @@ export default function CountryForm() {
     };
 
     const handleLocationChange = (event: React.ChangeEvent<{value: unknown}>) => {
-        setCountry(event.target.value as string);
+        const newCountry = event.target.value as string;
+        if (country !== newCountry) {
+            setCountry(newCountry);
+            // invalidate carbon values
+            setData(prev => {
+                prev.forEach(p => p.outdated = true);
+                return prev;
+            });
+        }
         setIsValide(true);
     }
 

@@ -18,9 +18,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Emissions() {
     const classes = useStyles();
-    // TODO: avoid re-renders due to new reference
-    const {country, electricityValues, activeStep, setActiveStep} = useContext(AppContext);
-    const {data, isLoading, apiCallFailed, apiCallSucceeded} = useFetch(electricityValues, country);
+    const {country, data, setData, activeStep, setActiveStep} = useContext(AppContext);
+    const {newData, isLoading, apiCallFailed, apiCallSucceeded} = useFetch(data, country);
 
     useEffect(() => {
         if (!isLoading && apiCallSucceeded) {
@@ -29,6 +28,12 @@ export default function Emissions() {
             }
         }
     }, [data, isLoading, apiCallFailed]);
+
+    useEffect(() => {
+        if (!isLoading && apiCallSucceeded) {
+            setData(newData);
+        }
+    }, [newData]);
 
     return (
         <>

@@ -7,6 +7,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import weekdays from '../utils/weekdays';
 import AppContext from './AppContext';
 import VerticalSlider from './VerticalSlider';
+import ChartData from '../../types/ChartData';
 
 const useStyles = makeStyles((theme) => ({
     sliderContainer: {
@@ -37,8 +38,8 @@ export default function UsageForm() {
     const classes = useStyles();
     const {
         setIsValide,
-        electricityValues,
-        setElectricityValues
+        data,
+        setData
     } = useContext(AppContext);
     const theme = useTheme();
     // smaller than XS
@@ -49,8 +50,8 @@ export default function UsageForm() {
         return sum > 0;
     }
 
-    const checkValidity = (values: number[]) => {
-        if (notEmpty(values)) {
+    const checkValidity = () => {
+        if (notEmpty(data.map(d => d.electricityValue))) {
             setIsValide(true);
         } else {
             setIsValide(false);
@@ -58,16 +59,17 @@ export default function UsageForm() {
     }
 
     useEffect(() => {
-        checkValidity(electricityValues);
-    }, [electricityValues]);
+        checkValidity();
+    }, [data]);
 
     const handleChange = (value: number | number[], sliderNumber: number) => {
         if (Array.isArray(value)) {
             throw new Error('Single value expected');
         }
-        setElectricityValues(prev => {
+        setData(prev => {
             const newValues = Array.from(prev);
-            newValues[sliderNumber] = value;
+            newValues[sliderNumber].electricityValue = value;
+            newValues[sliderNumber].outdated = true;
             return newValues;
         });
     }
@@ -83,7 +85,7 @@ export default function UsageForm() {
                         <Grid key={i} item container className={classes.background} direction="column">
                             <Grid item className={classes.sliderContainer}>
                                 <VerticalSlider
-                                    value={electricityValues[i]}
+                                    value={data[i].electricityValue}
                                     onChange={(event, value) => handleChange(value, i)}
                                 />
                             </Grid>

@@ -7,9 +7,9 @@ import Response from '../../types/Response';
 const isDev = process.env.NODE_ENV !== 'production';
 const API_URL = isDev ? '/api/estimates/mock' : '/api/estimates';
 
-export default function useFetch(electricityValues: number[], country: string) {
-    const [data, setData] = useState<ChartData[]>(weekday.map(d => ({weekday: d, value: 0})));
-    const [dataWhileLoading, setDataWhileLoading] = useState<ChartData[]>(weekday.map(d => ({weekday: d, value: 0})));
+export default function useFetch(data: ChartData[], country: string) {
+    const [newData, setNewData] = useState<ChartData[]>(data);
+    const [dataWhileLoading, setDataWhileLoading] = useState<ChartData[]>(data);
     const [isLoading, setIsLoading] = useState(false);
     const [apiCallSucceeded, setApiCallSucceeded] = useState(false);
     const [apiCallFailed, setApiCallFailed] = useState(false);
@@ -27,37 +27,46 @@ export default function useFetch(electricityValues: number[], country: string) {
     useEffect(() => {
         setIsLoading(true);
         const pendingRequests: Promise<any>[] = [];
-        electricityValues.forEach((value, i) => {
-            if (value) {
-                const pendingRequest = postRequest(API_URL, {
-                    country,
-                    value
-                })
-                    .then((response: Response) => {
-                        if (response.status === 200) {
-                            setDataWhileLoading(prev => {
-                                const newData = [...prev];
-                                const index = newData.findIndex(v => v.weekday === weekday[i]);
-                                newData[index].value = response.body ? response.body : 0;
-                                return newData;
-                            })
-                        }
-                    });
-                pendingRequests.push(pendingRequest);
+        data.forEach((value, i) => {
+            if (value.outdated) {
+                if (value.electricityValue === 0) {
+                    update(i, 0);
+                } else {
+                    const pendingRequest = postRequest(API_URL, {
+                        country,
+                        value: value.electricityValue
+                    })
+                        .then((response: Response) => {
+                            if (response.status === 200) {
+                                update(i, response.body ? response.body : 0);
+                            }
+                        });
+                    pendingRequests.push(pendingRequest);
+                }
             }
         });
         Promise.all(pendingRequests)
             .then(() => {
                 setIsLoading(false);
                 apiCallDidSucceed();
-                setData(dataWhileLoading);
+                setNewData(dataWhileLoading);
             })
             .catch((e) => {
                 console.log(e);
                 apiCallDidFail();
                 setIsLoading(false);
             });
-    }, [electricityValues, country]);
+    }, [data, country]);
 
-    return {data, isLoading, apiCallFailed, apiCallSucceeded};
+    return {newData, isLoading, apiCallFailed, apiCallSucceeded};
+
+    function update(i: number, newCarbonValue: number) {
+        setDataWhileLoading(prev => {
+            const newData = [...prev];
+            const index = newData.findIndex(v => v.weekday === weekday[i]);
+            newData[index].carbonValue = newCarbonValue;
+            newData[index].outdated = false;
+            return newData;
+        });
+    }
 }

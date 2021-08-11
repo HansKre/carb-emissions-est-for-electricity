@@ -15,6 +15,8 @@ import AppBar from '@material-ui/core/AppBar/AppBar';
 import Grid from '@material-ui/core/Grid';
 import {useTheme} from '@material-ui/core';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import ChartData from '../../types/ChartData';
+import weekday from '../utils/weekdays';
 
 const MIN_PAPER_HEIGHT = 550;
 
@@ -100,7 +102,7 @@ export default function ElectricityToCarbon() {
     const classes = useStyles();
     const [activeStep, setActiveStep] = useState(0);
     const [isValide, setIsValide] = useState(false);
-    const [electricityValues, setElectricityValues] = useState([0, 0, 0, 0, 0, 0, 0]);
+    const [data, setData] = useState<ChartData[]>(weekday.map(d => ({weekday: d, carbonValue: 0, electricityValue: 0, outdated: false})));
     const [country, setCountry] = useState('');
     const [date, setDate] = useState(new Date());
 
@@ -124,8 +126,8 @@ export default function ElectricityToCarbon() {
     return (
         <AppContext.Provider value={{
             setIsValide,
-            electricityValues,
-            setElectricityValues,
+            data,
+            setData,
             country,
             setCountry,
             date,
