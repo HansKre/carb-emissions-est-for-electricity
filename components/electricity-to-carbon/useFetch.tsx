@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {ChartData} from "./CustomBarChart";
+import ChartData from "../../types/ChartData";
 import weekday from '../utils/weekdays';
 import postRequest from "../utils/postRequest";
 import Response from '../../types/Response';

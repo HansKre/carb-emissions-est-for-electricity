@@ -1,12 +1,8 @@
 import {useTheme} from '@material-ui/core';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import {Bar, BarChart, CartesianGrid, XAxis, YAxis, ResponsiveContainer} from 'recharts';
+import ChartData from '../../types/ChartData';
 import {LOCALE} from './constants';
-
-export type ChartData = {
-    weekday: string,
-    value: number
-}
 
 type Props = {
     data: ChartData[];
