@@ -27,7 +27,7 @@ export default function Emissions() {
                 setActiveStep(prev => prev + 1);
             }
         }
-    }, [data, isLoading, apiCallFailed]);
+    }, [data, isLoading, apiCallFailed, apiCallSucceeded]);
 
     useEffect(() => {
         if (!isLoading && apiCallSucceeded) {

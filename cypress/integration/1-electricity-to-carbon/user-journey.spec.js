@@ -154,10 +154,7 @@ describe('User Journey', () => {
             });
 
             it('should make api-call and render exactly one bar', () => {
-                cy.intercept({
-                    method: 'POST',
-                    url: '/api/estimates*',
-                }).as('apiCall');
+                aliasApiCall();
                 navigateToEmissions();
                 cy.wait(['@apiCall'])
                 cy.get('[id="chart"]').should('exist');
@@ -166,16 +163,7 @@ describe('User Journey', () => {
             });
 
             it('should fail gracefully and show error message only when api-call fails', () => {
-                cy.intercept({
-                    method: 'POST',
-                    url: '/api/estimates*',
-                }, {
-                    statusCode: 500,
-                    body: {
-                        foo: 'bar',
-                    },
-                    delay: 2000, // milliseconds
-                }).as('apiCall');
+                delayAndFailApiCall();
                 cy.intercept('POST', '/api*', (req) => {
                     req.continue((res) => {
                         // the response will not be sent to the browser until
@@ -191,10 +179,46 @@ describe('User Journey', () => {
                 cy.wait(['@apiCall']);
                 cy.get('[id="errorMsg"]').should('exist');
                 cy.get('[id="chart"]').should('not.exist');
-            })
+            });
+
+            it('should have check-icon when data-fetching succeeded', () => {
+                aliasApiCall();
+                navigateToEmissions();
+                cy.wait(['@apiCall'])
+                cy.get('.MuiStepIcon-text').should('have.length', 0);
+                cy.get('.MuiStepIcon-completed').should('have.length', 3);
+            });
+
+            it('should not have check-icon when data-fetching failed', () => {
+                delayAndFailApiCall();
+                navigateToEmissions();
+                cy.wait(['@apiCall'])
+                cy.get('.MuiStepIcon-text').should('have.length', 1);
+                cy.get('.MuiStepIcon-completed').should('have.length', 2);
+            });
         });
     });
 });
+
+function aliasApiCall() {
+    cy.intercept({
+        method: 'POST',
+        url: '/api/estimates*',
+    }).as('apiCall');
+}
+
+function delayAndFailApiCall() {
+    cy.intercept({
+        method: 'POST',
+        url: '/api/estimates*',
+    }, {
+        statusCode: 500,
+        body: {
+            foo: 'bar',
+        },
+        delay: 2000, // milliseconds
+    }).as('apiCall');
+}
 
 function datePicker() {
     return cy.get('#date-picker-inline');
