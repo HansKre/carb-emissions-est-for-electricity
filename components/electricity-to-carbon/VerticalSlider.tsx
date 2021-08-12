@@ -12,13 +12,22 @@ const useStyles = makeStyles((theme) => ({
         '& .MuiSlider-markLabel': {
             transform: 'none',
             left: '-14px',
+            [theme.breakpoints.down('xs')]: {
+                left: 0,
+            },
             marginBottom: '17px',
+        },
+        '&.MuiSlider-vertical': {
+            padding: '0 13px',
         }
     },
     vertical: {
         marginLeft: theme.spacing(3),
         [theme.breakpoints.down('sm')]: {
             marginLeft: theme.spacing(2),
+        },
+        [theme.breakpoints.down('xs')]: {
+            marginLeft: theme.spacing(1),
         },
     },
     thumb: {

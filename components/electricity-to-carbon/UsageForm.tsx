@@ -7,7 +7,6 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import weekdays from '../utils/weekdays';
 import AppContext from './AppContext';
 import VerticalSlider from './VerticalSlider';
-import ChartData from '../../types/ChartData';
 
 const useStyles = makeStyles((theme) => ({
     sliderContainer: {
@@ -23,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: theme.spacing(3),
         [theme.breakpoints.down('sm')]: {
             marginLeft: theme.spacing(2),
+        },
+        [theme.breakpoints.down('xs')]: {
+            marginLeft: theme.spacing(1),
         },
     },
     container: {
