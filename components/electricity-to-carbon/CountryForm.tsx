@@ -63,11 +63,7 @@ export default function CountryForm() {
     const isXs = useMediaQuery(theme.breakpoints.down('xs'));
 
     useEffect(() => {
-        if (country) {
-            setIsValide(true);
-        } else {
-            setIsValide(false);
-        }
+        setIsValide(!!country);
     }, [country])
 
     const handleDateChange = (date: MaterialUiPickersDate) => {
