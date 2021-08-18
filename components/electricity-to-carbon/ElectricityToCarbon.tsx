@@ -90,7 +90,6 @@ function getStepContent(step: number) {
         case 1:
             return <CountryForm />;
         case 2:
-            return <Emissions />;
         case 3:
             return <Emissions />;
         default:
